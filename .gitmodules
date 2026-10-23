@@ -1,0 +1,12 @@
+[submodule "vendor/jason-os"]
+	path = vendor/jason-os
+	url = https://github.com/jasethepeople/jason-os.git
+[submodule "vendor/lispmind"]
+	path = vendor/lispmind
+	url = https://github.com/jasethepeople/lispmind.git
+[submodule "vendor/aetherstate-hardened"]
+	path = vendor/aetherstate-hardened
+	url = https://github.com/jasethepeople/AetherState_v2-hardened.git
+[submodule "vendor/integration-gateway"]
+	path = vendor/integration-gateway
+	url = https://github.com/jasethepeople/integration-gateway.git
