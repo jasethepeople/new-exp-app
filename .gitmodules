@@ -25,3 +25,9 @@
 [submodule "vendor/molt-genesis"]
 	path = vendor/molt-genesis
 	url = https://github.com/jasethepeople/molt-genesis.git
+[submodule "vendor/context-synthesizer"]
+	path = vendor/context-synthesizer
+	url = https://github.com/jasethepeople/Context-Synthesizer.git
+[submodule "vendor/swarm-paas"]
+	path = vendor/swarm-paas
+	url = https://github.com/jasethepeople/swarm-paas.git

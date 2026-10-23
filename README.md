@@ -12,6 +12,8 @@ This repository is the connection point for the Jason ecosystem. It tracks the s
 - `vendor/local-agent-mesh` — approval-controlled local agent-run service.
 - `vendor/molt-forge` — sandboxed repository investigation and evidence API.
 - `vendor/molt-modules` and `vendor/molt-genesis` — signed-event/provenance tooling, tracked as CLI/library-only components.
+- `vendor/context-synthesizer` — webhook-backed developer context deltas, graph state, and reverse-query API.
+- `vendor/swarm-paas` — authenticated MCP endpoint for agent/app orchestration; requires an explicit Builder API key.
 
 ## Run immediately
 
@@ -42,6 +44,8 @@ npm start
 - `POST /api/graphrag/query` forwards to Omni-Intel’s citation-grounded query API when `GRAPHRAG_URL` is set.
 - `POST /api/mesh/runs` forwards to Local Agent Mesh’s approval-controlled run API when `AGENT_MESH_URL` is set.
 - `POST /api/forge/jobs` forwards to MOLT Forge’s evidence-producing validation API when `MOLT_FORGE_URL` is set.
+- `POST /api/context/query` forwards to Context Synthesizer’s reverse-query API when `CONTEXT_SYNTH_URL` is set.
+- `POST /api/swarm/mcp` forwards JSON-RPC MCP calls to Swarm PaaS only when both `SWARM_PAAS_URL` and `SWARM_PAAS_API_KEY` are set.
 - MOLT Modules and MOLT Genesis are tracked for signed provenance and bounded validation workflows, but are not treated as network services.
 - LispMind is source-connected but not auto-started. Start its own MCP transport only after reviewing its policy and runtime requirements.
 

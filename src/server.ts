@@ -1,6 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { loadConfig } from './config.js';
-import { createAgentMeshRun, createMoltForgeJob, executeGateway, getAetherDocument, getServiceStatus, queryGraphRag } from './adapters.js';
+import { callSwarmPaaSMcp, createAgentMeshRun, createMoltForgeJob, executeGateway, getAetherDocument, getServiceStatus, queryContextSynthesizer, queryGraphRag } from './adapters.js';
 
 const config = loadConfig();
 
@@ -36,6 +36,14 @@ const server = createServer(async (req, res) => {
     }
     if (req.method === 'POST' && url.pathname === '/api/forge/jobs') {
       const result = await createMoltForgeJob(config, await readBody(req), req.headers.authorization);
+      return json(res, result.status, result.body);
+    }
+    if (req.method === 'POST' && url.pathname === '/api/context/query') {
+      const result = await queryContextSynthesizer(config, await readBody(req), req.headers.authorization);
+      return json(res, result.status, result.body);
+    }
+    if (req.method === 'POST' && url.pathname === '/api/swarm/mcp') {
+      const result = await callSwarmPaaSMcp(config, await readBody(req));
       return json(res, result.status, result.body);
     }
     const docMatch = url.pathname.match(/^\/api\/aether\/docs\/([^/]+)$/);

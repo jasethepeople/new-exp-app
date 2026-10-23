@@ -56,10 +56,10 @@ export async function getAetherDocument(config: AppConfig, docId: string, author
   }
 }
 
-async function postJson(url: string, body: unknown, authorization?: string, timeout = 10_000) {
+async function postJson(url: string, body: unknown, authorization?: string, timeout = 10_000, extraHeaders: Record<string, string> = {}) {
   const response = await fetch(url, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', ...(authorization ? { authorization } : {}) },
+    headers: { 'content-type': 'application/json', ...extraHeaders, ...(authorization ? { authorization } : {}) },
     body: JSON.stringify(body),
     signal: AbortSignal.timeout(timeout)
   });
@@ -90,5 +90,23 @@ export async function createMoltForgeJob(config: AppConfig, body: unknown, autho
     return await postJson(`${config.moltForgeUrl}/api/jobs`, body, authorization);
   } catch (error) {
     return { status: 502, body: { ok: false, error: error instanceof Error ? error.message : 'MOLT Forge unavailable' } };
+  }
+}
+
+export async function queryContextSynthesizer(config: AppConfig, body: unknown, authorization?: string) {
+  if (!config.contextSynthUrl) return { status: 503, body: { ok: false, error: 'CONTEXT_SYNTH_URL is not configured' } };
+  try {
+    return await postJson(`${config.contextSynthUrl}/api/delta/query`, body, authorization);
+  } catch (error) {
+    return { status: 502, body: { ok: false, error: error instanceof Error ? error.message : 'Context Synthesizer unavailable' } };
+  }
+}
+
+export async function callSwarmPaaSMcp(config: AppConfig, body: unknown) {
+  if (!config.swarmPaasUrl || !config.swarmPaasApiKey) return { status: 503, body: { ok: false, error: 'SWARM_PAAS_URL and SWARM_PAAS_API_KEY are required' } };
+  try {
+    return await postJson(`${config.swarmPaasUrl}/api/mcp`, body, undefined, 20_000, { 'x-builder-api-key': config.swarmPaasApiKey });
+  } catch (error) {
+    return { status: 502, body: { ok: false, error: error instanceof Error ? error.message : 'Swarm PaaS unavailable' } };
   }
 }
