@@ -8,6 +8,10 @@ This repository is the connection point for the Jason ecosystem. It tracks the s
 - `vendor/aetherstate-hardened` — hardened AetherState fork with RS256 document authorization and locked-down metrics.
 - `vendor/integration-gateway` — modular HTTP integration gateway.
 - `vendor/lispmind` — LispMind source, kept opt-in because it exposes a broad MCP surface and optional kernel/firmware tooling.
+- `vendor/omni-intel-graphrag` — local code/text/security/media retrieval gateway.
+- `vendor/local-agent-mesh` — approval-controlled local agent-run service.
+- `vendor/molt-forge` — sandboxed repository investigation and evidence API.
+- `vendor/molt-modules` and `vendor/molt-genesis` — signed-event/provenance tooling, tracked as CLI/library-only components.
 
 ## Run immediately
 
@@ -27,11 +31,18 @@ The shell does not silently start external services or privileged LispMind funct
 ```bash
 INTEGRATION_GATEWAY_URL=http://127.0.0.1:3000 \
 AETHERSTATE_URL=http://127.0.0.1:8080 \
+GRAPHRAG_URL=http://127.0.0.1:8080 \
+AGENT_MESH_URL=http://127.0.0.1:5000 \
+MOLT_FORGE_URL=http://127.0.0.1:5000 \
 npm start
 ```
 
 - `POST /api/v1/execute` forwards to the integration gateway only when `INTEGRATION_GATEWAY_URL` is set.
 - `GET /api/aether/docs/:docId` forwards only with both `AETHERSTATE_URL` and a Bearer token. The hardened service remains the authority for RS256 verification and document-level access.
+- `POST /api/graphrag/query` forwards to Omni-Intel’s citation-grounded query API when `GRAPHRAG_URL` is set.
+- `POST /api/mesh/runs` forwards to Local Agent Mesh’s approval-controlled run API when `AGENT_MESH_URL` is set.
+- `POST /api/forge/jobs` forwards to MOLT Forge’s evidence-producing validation API when `MOLT_FORGE_URL` is set.
+- MOLT Modules and MOLT Genesis are tracked for signed provenance and bounded validation workflows, but are not treated as network services.
 - LispMind is source-connected but not auto-started. Start its own MCP transport only after reviewing its policy and runtime requirements.
 
 ## Validation

@@ -1,6 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { loadConfig } from './config.js';
-import { executeGateway, getAetherDocument, getServiceStatus } from './adapters.js';
+import { createAgentMeshRun, createMoltForgeJob, executeGateway, getAetherDocument, getServiceStatus, queryGraphRag } from './adapters.js';
 
 const config = loadConfig();
 
@@ -24,6 +24,18 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && url.pathname === '/api/status') return json(res, 200, await getServiceStatus(config));
     if (req.method === 'POST' && url.pathname === '/api/v1/execute') {
       const result = await executeGateway(config, await readBody(req), req.headers.authorization);
+      return json(res, result.status, result.body);
+    }
+    if (req.method === 'POST' && url.pathname === '/api/graphrag/query') {
+      const result = await queryGraphRag(config, await readBody(req), req.headers.authorization);
+      return json(res, result.status, result.body);
+    }
+    if (req.method === 'POST' && url.pathname === '/api/mesh/runs') {
+      const result = await createAgentMeshRun(config, await readBody(req), req.headers.authorization);
+      return json(res, result.status, result.body);
+    }
+    if (req.method === 'POST' && url.pathname === '/api/forge/jobs') {
+      const result = await createMoltForgeJob(config, await readBody(req), req.headers.authorization);
       return json(res, result.status, result.body);
     }
     const docMatch = url.pathname.match(/^\/api\/aether\/docs\/([^/]+)$/);

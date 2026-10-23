@@ -10,3 +10,18 @@
 [submodule "vendor/integration-gateway"]
 	path = vendor/integration-gateway
 	url = https://github.com/jasethepeople/integration-gateway.git
+[submodule "vendor/omni-intel-graphrag"]
+	path = vendor/omni-intel-graphrag
+	url = https://github.com/jasethepeople/omni-intel-graphrag.git
+[submodule "vendor/local-agent-mesh"]
+	path = vendor/local-agent-mesh
+	url = https://github.com/jasethepeople/Local-Agent-Mesh2.git
+[submodule "vendor/molt-forge"]
+	path = vendor/molt-forge
+	url = https://github.com/jasethepeople/molt-forge.git
+[submodule "vendor/molt-modules"]
+	path = vendor/molt-modules
+	url = https://github.com/jasethepeople/molt-modules.git
+[submodule "vendor/molt-genesis"]
+	path = vendor/molt-genesis
+	url = https://github.com/jasethepeople/molt-genesis.git
